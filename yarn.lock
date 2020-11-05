@@ -7142,6 +7142,11 @@ svg-tags@^1.0.0:
   resolved "https://registry.npm.taobao.org/svg-tags/download/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
   integrity sha1-WPcc7jvVGbWdSyqEO2x95krAR2Q=
 
+svga.lite@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.npm.taobao.org/svga.lite/download/svga.lite-1.4.2.tgz#7227d181fc7d9660320cf2c58cdb65120b47236a"
+  integrity sha1-cifRgfx9lmAyDPLFjNtlEgtHI2o=
+
 svgo@^1.0.0:
   version "1.3.2"
   resolved "https://registry.npm.taobao.org/svgo/download/svgo-1.3.2.tgz#b6dc511c063346c9e415b81e43401145b96d4167"

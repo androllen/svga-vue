@@ -1,42 +1,60 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <!-- <canvas id="canvas" style="width: 200px; height: 200px;"/> -->
+    <canvas id="canvas" />
   </div>
 </template>
 
 <script>
+import { Downloader, Parser, Player } from 'svga.lite';
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  data() {
+    return {
+      downloader: null,
+      parser: null,
+      player: null,
+    };
+  },
+  methods: {
+    initSvg() {
+      this.downloader = new Downloader();
+      this.parser = new Parser();
+      this.player = new Player('#canvas');
+    },
+    async showSvg() {
+      const fileData = await this.downloader.get('heart.svga');
+      const svgaData = await this.parser.do(fileData);
+      this.player.set({ loop: 3 });
+      await this.player.mount(svgaData);
+      this.player
+        // 开始动画事件回调
+        .$on('start', () => console.log('event start'))
+        // 暂停动画事件回调
+        .$on('pause', () => console.log('event pause'))
+        // 停止动画事件回调
+        .$on('stop', () => console.log('event stop'))
+        // 动画结束事件回调
+        .$on('end', () => {
+          console.log('event end');
+        })
+        // 清空动画事件回调
+        .$on('clear', () => console.log('event clear'))
+        // 动画播放中事件回调
+        .$on('process', () => console.log('event process', this.player.progress));
+      // 开始播放动画
+      this.player.start();
+    },
+  },
+  mounted() {
+    this.initSvg();
+    this.showSvg();
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
