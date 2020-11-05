@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <!-- <canvas id="canvas" style="width: 200px; height: 200px;"/> -->
-    <canvas id="canvas" />
+    <canvas id="canvas" style="width: 200px; height: 200px;"/>
+    <!-- <canvas id="canvas" /> -->
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
       this.player = new Player('#canvas');
     },
     async showSvg() {
-      const fileData = await this.downloader.get('heart.svga');
+      const fileData = await this.downloader.get('/angel.svga');
       const svgaData = await this.parser.do(fileData);
       this.player.set({ loop: 3 });
       await this.player.mount(svgaData);
