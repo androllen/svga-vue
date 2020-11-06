@@ -39,7 +39,7 @@ export default {
       const downloader = new Downloader();
       const parser = new Parser();
       const player = new Player(canvas);
-      player.set({ loop: 0, cacheFrames: true, intersectionObserverRender: true });
+      player.set({ loop: 1, cacheFrames: true, intersectionObserverRender: true });
       const fileData = await downloader.get(element.file);
       const svgaData = await parser.do(fileData);
       await player.mount(svgaData);
@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 canvas {
   width: 200px;
   height: 200px;

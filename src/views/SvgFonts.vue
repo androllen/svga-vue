@@ -1,9 +1,43 @@
 <template>
-  <div></div>
+  <div>
+    <canvas id="font"></canvas>
+    <canvas id="canvas"></canvas>
+  </div>
 </template>
 
 <script>
-export default {};
+import { Downloader, Parser, Player } from 'svga.lite';
+export default {
+  methods: {
+    async playSvga() {
+      const text = 'hello gg';
+      const fontCanvas = document.getElementById('font');
+      const fontContext = fontCanvas.getContext('2d');
+      fontCanvas.height = 30;
+      fontContext.font = '30px Arial';
+      fontContext.textAlign = 'center';
+      fontContext.textBaseline = 'middle';
+      fontContext.fillStyle = '#000';
+      fontContext.fillText(text, fontCanvas.clientWidth / 2, fontCanvas.clientHeight / 2);
+
+      const downloader = new Downloader();
+      const svgaFile = './svga/kingset.svga';
+      const fileData = await downloader.get(svgaFile);
+
+      const parser = new Parser();
+      const svgaData = await parser.do(fileData);
+      console.log('SVGA Data', svgaData);
+      svgaData.dynamicElements['banner'] = fontCanvas;
+
+      const player = new Player('#canvas');
+      await player.mount(svgaData);
+      player.start();
+    },
+  },
+  mounted() {
+    this.playSvga();
+  },
+};
 </script>
 
 <style scoped>

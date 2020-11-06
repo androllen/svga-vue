@@ -11,7 +11,6 @@
       <router-link to="/db">db</router-link> |
       <router-link to="/cancel">downloader-cancel</router-link> |
       <router-link to="/control">control</router-link> |
-      <router-link to="/awarded">awarded</router-link> |
     </div>
     <router-view/>
   </div>

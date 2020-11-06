@@ -1,10 +1,61 @@
 <template>
-  <div></div>
+  <div id="multi">
+    <canvas id="canvas1"></canvas>
+    <canvas id="canvas2"></canvas>
+    <canvas id="canvas3"></canvas>
+  </div>
 </template>
 
 <script>
-export default {};
+import { Downloader, Parser, Player } from 'svga.lite';
+export default {
+  methods: {
+    async playSvga() {
+      const downloader = new Downloader();
+      const parser = new Parser();
+      const player1 = new Player('#canvas1');
+      const player2 = new Player('#canvas2');
+      const player3 = new Player('#canvas3');
+
+      const [fileData1, fileData2, fileData3] = await Promise.all([
+        downloader.get('./svga/1.svga'),
+        downloader.get('./svga/2.svga'),
+        downloader.get('./svga/3.svga'),
+      ]);
+
+      const [svgaData1, svgaData2, svgaData3] = await Promise.all([
+        await parser.do(fileData1),
+        await parser.do(fileData2),
+        await parser.do(fileData3),
+      ]);
+
+      await Promise.all([await player1.mount(svgaData1), await player2.mount(svgaData2), await player3.mount(svgaData3)]);
+
+      player1.start();
+      player2.start();
+      player3.start();
+    },
+  },
+  mounted() {
+    this.playSvga();
+  },
+};
 </script>
 
 <style scoped>
+#multi {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+canvas {
+  max-width: 300px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+}
 </style>

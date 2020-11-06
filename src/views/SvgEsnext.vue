@@ -1,9 +1,97 @@
 <template>
-  <div></div>
+  <div>
+    <canvas id="canvas"></canvas>
+  </div>
 </template>
 
 <script>
-export default {};
+import { Downloader, Parser, Player } from 'svga.lite';
+export default {
+  methods: {
+    async playSvg() {
+      const downloader = new Downloader();
+      const svgaFile = './svga/3.svga';
+      let fileData;
+      try {
+        fileData = await downloader.get(svgaFile);
+      } catch (error) {
+        throw error;
+      }
+
+      console.log('File Data', fileData);
+
+      const parser = new Parser();
+
+      const svgaData = await parser.do(fileData);
+
+      // const image = new Image()
+      // image.src = 'https://iovo-oss.yy.com/yoyi_global/8PrKPO.png'
+      // svgaData.images[99] = image
+
+      console.log('SVGA Data', svgaData);
+
+      const player = new Player('#canvas');
+
+      player
+        //   .$on('start', () => {
+        //     // console.log('event start')
+        //     console.time('time')
+        //   })
+        //   .$on('pause', () => {
+        //     console.log('event pause')
+        //   })
+        .$on('stop', () => {
+          console.log('event stop');
+        })
+        .$on('end', () => {
+          console.log('event end');
+          // player.start();
+          // console.timeEnd('time')
+        });
+      //   .$on('clear', () => {
+      //     console.log('event clear')
+      //   })
+      // .$on('process', () => {
+      //   // console.log('event process', player.progress)
+      //   console.log('event process', player.currentFrame)
+      // })
+
+      await player.mount(svgaData);
+
+      player.set({
+        loop: 1,
+        // fillMode: 'forwards',
+        // fillMode: 'backwards'
+        // playMode: 'fallbacks',
+        // startFrame: 20,
+        // endFrame: 50
+      });
+
+      // console.log(player)
+
+      player.start();
+
+      // setTimeout(() => {
+      //   player.pause()
+      // }, 3000)
+
+      // setTimeout(() => {
+      //   player.start()
+      // }, 4000)
+
+      // setTimeout(() => {
+      //   player.stop()
+      // }, 1000)
+
+      // setTimeout(() => {
+      //   player.clear()
+      // }, 6000)
+    },
+  },
+  mounted() {
+    this.playSvg();
+  },
+};
 </script>
 
 <style scoped>

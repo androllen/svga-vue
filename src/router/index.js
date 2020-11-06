@@ -58,11 +58,6 @@ const routes = [
     name: 'SvgControl',
     component: () => import(/* webpackChunkName: "about" */ '../views/SvgControl.vue')
   },
-  {
-    path: '/control',
-    name: 'SvgAwarded',
-    component: () => import(/* webpackChunkName: "about" */ '../views/SvgAwarded.vue')
-  },
 ]
 
 const router = new VueRouter({

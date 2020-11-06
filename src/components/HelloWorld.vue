@@ -29,7 +29,7 @@ export default {
     async showSvg() {
       const fileData = await this.downloader.get('/angel.svga');
       const svgaData = await this.parser.do(fileData);
-      this.player.set({ loop: 3 });
+      this.player.set({ loop: 1 });
       await this.player.mount(svgaData);
       this.player
         // 开始动画事件回调

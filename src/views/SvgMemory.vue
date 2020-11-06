@@ -1,10 +1,56 @@
 <template>
-  <div></div>
+  <div>
+    <button @click="mountSvga">mount</button>
+    <button @click="playSvga">Play</button>
+    <canvas id="canvas"></canvas>
+  </div>
 </template>
 
 <script>
-export default {};
+import { Downloader, Parser, Player } from 'svga.lite';
+
+export default {
+  methods: {
+    async mountSvga() {
+      const SVGAFileURL = './svga/4.svga';
+      const downloader = new Downloader();
+      const fileData = await downloader.get(SVGAFileURL);
+      const parser = new Parser();
+      const svgaData = await parser.do(fileData);
+      parser.destroy();
+      console.log('end');
+    },
+    async playSvga() {
+      const SVGAFileURL = './svga/3.svga';
+      const downloader = new Downloader();
+      const fileData = await downloader.get(SVGAFileURL);
+      const parser = new Parser();
+      const svgaData = await parser.do(fileData);
+      const player = new Player('#canvas');
+      player.set({ loop: 1 });
+      await player.mount(svgaData);
+      player.start();
+      player.$on('end', () => {
+        // 第二次未能被销毁
+        // parser.destroy()
+        // player.destroy()
+        // console.log('end')
+
+        setTimeout(() => {
+          parser.destroy();
+          player.destroy();
+          console.log('ss end');
+        }, 0);
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
+canvas {
+  width: 300px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+}
 </style>
