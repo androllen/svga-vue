@@ -1,8 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">home</router-link> |
+      <router-link to="/stress">stress</router-link> |
+      <router-link to="/simple">simple</router-link> |
+      <router-link to="/esnext">esnext</router-link> |
+      <router-link to="/multiple">multiple</router-link> |
+      <router-link to="/font">font</router-link> |
+      <router-link to="/memory">memory</router-link> |
+      <router-link to="/db">db</router-link> |
+      <router-link to="/cancel">downloader-cancel</router-link> |
+      <router-link to="/control">control</router-link> |
+      <router-link to="/awarded">awarded</router-link> |
     </div>
     <router-view/>
   </div>
